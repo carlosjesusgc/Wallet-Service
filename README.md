@@ -1,1 +1,1 @@
-# ShoppingCart-Service
+# Wallet-Service
