@@ -22,11 +22,11 @@ def get_secret_manager_db():
         client = boto3.client("secretsmanager", region_name=region_name)
         response = client.get_secret_value(SecretId=secret_name)
         secret = json.loads(response["SecretString"])
-        
+
         # Proporcionar valores predeterminados para host y dbname si no están en el secreto
         secret["host"] = secret.get("host", "cluster-gamer-vault.cluster-c6r6ws4k4vwo.us-east-1.rds.amazonaws.com:3306")
         secret["dbname"] = secret.get("dbname", "gamervaultlts")
-        
+
         return secret
     except ClientError as e:
         log.error(f"Error al obtener el secreto: {e}")

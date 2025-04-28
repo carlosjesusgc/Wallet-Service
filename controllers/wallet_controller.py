@@ -32,3 +32,20 @@ def add_savings(user_id):
         return jsonify({"message": message, "balance": float(wallet.balance)})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@wallet_bp.route("/<user_id>/deduct", methods=["POST"])
+def deduct_savings(user_id):
+    try:
+        data = request.json
+        amount = Decimal(str(data.get("amount", 0)))
+
+        wallet = Wallet.query.filter_by(user_id=user_id).first()
+
+        wallet.balance -= amount
+        message = "Savings deduct"
+
+        db.session.commit()
+
+        return jsonify({"message": message, "balance": float(wallet.balance)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
